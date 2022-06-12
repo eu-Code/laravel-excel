@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+    laravel_excel_api:
+        image: gluontech/laravel
+        restart: unless-stopped
+        volumes:
+            - .:/var/www/html
+            - ./dockers/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - /var/www/storage/framework
+            - /var/www/storage/framework/cache
+            - /var/www/storage/framework/cache/data
+            - /var/www/storage/framework/sessions
+            - /var/www/storage/framework/testing
+            - /var/www/storage/framework/views
+        depends_on:
+            - laravel_excel_mysql
+        networks:
+            - laravel_excel_network
+
+    laravel_excel_nginx:
+        image: nginx:stable-alpine
+        restart: unless-stopped
+        ports:
+            - ${APP_PORT}:80
+        volumes:
+            - .:/var/www/html
+            - ./dockers/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        depends_on:
+            - laravel_excel_api
+        networks:
+            - laravel_excel_network
+
+    laravel_excel_mysql:
+        image: mysql:5.7
+        restart: unless-stopped
+        tty: true
+        ports:
+            - ${APP_DB_PORT}:3306
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        networks:
+            - laravel_excel_network
+
+networks:
+    laravel_excel_network:
+        driver: bridge

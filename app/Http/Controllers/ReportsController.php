@@ -28,8 +28,7 @@ class ReportsController extends Controller
     }
 
     public function export(){
-        
-        $export = new ReportExport(ReportResource::collection(Report::all()));
+        $export = new ReportExport(ReportResource::collection(Report::all()), 'Awash Bank', 'Mobile Banking', 'Aug 25, 2022 - Sep 15, 2022');
         return Excel::download($export, 'reports.xlsx');
     }
 }

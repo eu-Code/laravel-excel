@@ -21,6 +21,12 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
     protected $client;
     protected $brand;
     protected $period;
+    protected $primaryTextColor;
+    protected $secondaryTextColor;
+    protected $primaryColor;
+    protected $secondaryColor;
+    protected $first_logo;
+    protected $second_logo;
     /**
      * Export constructor
      */
@@ -29,6 +35,7 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
         $this->client = $client;
         $this->brand = $brand;
         $this->period = $period;
+       
     }
 
     public function drawings()
@@ -67,8 +74,6 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
         ];
     }
 
-   
-
     public function collection(){
         return $this->reports;
     }
@@ -76,21 +81,6 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
     public function startCell(): string
     {
         return 'A6';
-    }
-
-    public function columnWidths(): array
-    {
-        return [
-            'A' => 20,
-            'B' => 20,
-            'C' => 10,
-            'D' => 15,
-            'E' => 10,
-            'F' => 10,
-            'G' => 10,
-            'H' => 20,
-            'I' => 20,            
-        ];
     }
 
     public function styles(Worksheet $sheet)
@@ -114,6 +104,10 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
                     'color' => ['argb' => '000000'],
                 ],
             ],
+            'font' => [
+                'bold' => true,
+                'color'=>['argb' => 'ffffff',]
+            ],
             'fill' => [
                 'fillType'   => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                 'startColor' => ['argb' => '609e52',],
@@ -125,6 +119,10 @@ class ReportExport implements FromCollection, WithHeadings, WithCustomStartCell,
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
                     'color' => ['argb' => '000000'],
                 ],
+            ],
+            'font' => [
+                'bold' => true,
+                'color'=>['argb' => 'c4382b',]
             ],
             'fill' => [
                 'fillType'   => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,

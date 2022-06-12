@@ -1,7 +1,9 @@
 version: "3.7"
 services:
     laravel_excel_api:
-        image: gluontech/laravel
+        build:
+            context: ./
+            dockerfile: Dockerfile
         restart: unless-stopped
         volumes:
             - .:/var/www/html
